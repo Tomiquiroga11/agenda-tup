@@ -1,19 +1,69 @@
 @if(cargandoContacto){
-  <p>Cargando contacto...</p>
+  <div class="status-message">
+    <p>Cargando contacto...</p>
+    </div>
 } @else if(!contacto) {
-  <p>No se encontró el contacto</p>
+  <div class="status-message">
+    <p>No se encontró el contacto</p>
+    <a routerLink="/" class="btn btn-primary">Volver a la lista</a>
+  </div>
 } @else {
-  <h1>{{contacto!.firstName}} {{contacto!.lastName}}</h1>
-  <p>Email: {{contacto.email}}</p>
-  <p>Teléfono: {{contacto.number}}</p>
-@if (contacto.isFavorite) {
-  <p>⭐</p>
-  <button (click)="toggleFavorite()">Desmarcar favorito</button>
-} @else {
-  <button (click)="toggleFavorite()">Marcar como favorito</button>
-}
-  <p>
-    <a [routerLink]="['/contacts',idContacto(),'edit']">Editar</a>
-  </p>
-  <button (click)="deleteContact()">Eliminar</button>
+  <div class="details-card">
+    <a routerLink="/" class="back-link">← Volver a la lista</a>
+
+    <header class="card-header">
+      <div class="avatar">
+        @if (contacto.image) {
+          <img [src]="contacto.image" [alt]="contacto.firstName">
+        } @else {
+          <span>{{ contacto.firstName.charAt(0) }}{{ contacto.lastName.charAt(0) }}</span>
+        }
+      </div>
+      <div class="header-info">
+        <h1>{{ contacto.firstName }} {{ contacto.lastName }}</h1>
+        @if (contacto.isFavorite) {
+          <span class="favorite-badge">⭐ Favorito</span>
+        }
+      </div>
+    </header>
+
+    <div class="card-body">
+      <div class="info-item">
+        <span class="icon">📞</span>
+        <div class="info-content">
+          <span class="label">Teléfono</span>
+          <span class="value">{{ contacto.number }}</span>
+        </div>
+      </div>
+      <div class="info-item">
+        <span class="icon">📧</span>
+        <div class="info-content">
+          <span class="label">Email</span>
+          <span class="value">{{ contacto.email }}</span>
+        </div>
+      </div>
+      <div class="info-item">
+        <span class="icon">🏢</span>
+        <div class="info-content">
+          <span class="label">Compañía</span>
+          <span class="value">{{ contacto.company || 'No especificada' }}</span>
+        </div>
+      </div>
+      <div class="info-item">
+        <span class="icon">🏠</span>
+        <div class="info-content">
+          <span class="label">Dirección</span>
+          <span class="value">{{ contacto.address || 'No especificada' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <footer class="card-actions">
+      <button (click)="toggleFavorite()" class="btn btn-secondary">
+        {{ contacto.isFavorite ? 'Desmarcar Favorito' : 'Marcar Favorito' }}
+      </button>
+      <a [routerLink]="['/contacts', idContacto(), 'edit']" class="btn btn-primary">Editar</a>
+      <button (click)="deleteContact()" class="btn btn-danger">Eliminar</button>
+    </footer>
+  </div>
 }

@@ -1,12 +1,13 @@
 import { Component, inject, input, OnInit, viewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ContactsService } from '../../services/contacts-service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Contact, NewContact } from '../../interfaces/contacto';
 
 @Component({
   selector: 'app-new-edit-contact',
-  imports: [FormsModule],
+  standalone: true,
+  imports: [FormsModule, RouterModule],
   templateUrl: './new-edit-contact.html',
   styleUrl: './new-edit-contact.scss'
 })
@@ -16,29 +17,19 @@ export class NewEditContact implements OnInit {
   errorEnBack = false;
   idContacto = input<string>();
   contactoBack:Contact | undefined = undefined;
-  form = viewChild<NgForm>("newContactForm")
-  
+  form = viewChild<NgForm>("newContactForm");
+
+  isSaving = false;
+
   async ngOnInit() {
-    if(this.idContacto()){
-      const contacto:Contact|null = await this.contactsService.getContactById(this.idContacto()!);
-      if(contacto){
-        this.contactoBack = contacto;
-        this.form()?.setValue({
-          address: contacto.address,
-          company: contacto.company,
-          email: contacto.email,
-          firstName:contacto.firstName,
-          image:contacto.image,
-          isFavourite:contacto.isFavorite,
-          lastName: contacto.lastName,
-          number: contacto.number
-        })
-      }
-    }
   }
 
   async handleFormSubmission(form:NgForm){
+    if (form.invalid) return;
+
+    this.isSaving = true;
     this.errorEnBack = false;
+
     const nuevoContacto: NewContact ={
       firstName: form.value.firstName,
       lastName: form.value.lastName,
@@ -47,7 +38,7 @@ export class NewEditContact implements OnInit {
       image: form.value.image,
       number: form.value.number,
       company: form.value.company,
-      isFavorite: form.value.isFavorite
+      isFavorite: form.value.isFavourite || false
     }
 
     let res;
@@ -57,9 +48,11 @@ export class NewEditContact implements OnInit {
       res = await this.contactsService.createContact(nuevoContacto);
     }
 
+    this.isSaving = false;
+
     if(!res) {
       this.errorEnBack = true;
-      return
+      return;
     };
     this.router.navigate(["/contacts",res.id]);
   }

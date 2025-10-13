@@ -1,5 +1,58 @@
-@use "./../../../../public/styles/forms-pages.scss";
-
-.importante{
-    background-color: green;
-}
+:host {
+    display: block;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #34495e;
+  }
+  
+  .contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem; 
+  }
+  
+  .fab {
+    position: fixed; 
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    color: white;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    font-size: 2rem; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  
+    &:hover {
+      transform: scale(1.05); 
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    }
+  }
+  
+  .empty-message {
+    grid-column: 1 / -1; 
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.2rem;
+    color: #7f8c8d;
+  
+    a {
+      color: #3498db;
+      font-weight: 600;
+      text-decoration: none;
+    }
+  }

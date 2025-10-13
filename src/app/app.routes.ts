@@ -3,7 +3,7 @@ import { LoginPage } from './pages/login-page/login-page';
 import { ContactListPage } from './pages/contact-list-page/contact-list-page';
 import { ContactDetailsPage } from './pages/contact-details-page/contact-details-page';
 import { LoggedLayout } from './layouts/logged-layout/logged-layout';
-import { RegisterPage } from './pages/register/register';
+import { Register } from './pages/register/register';
 import { onlyPublicGuard } from './guards/only-public-guard-guard';
 import { onlyUserGuard } from './guards/only-user-guard-guard';
 import { NewEditContact } from './pages/new-edit-contact/new-edit-contact';
@@ -17,12 +17,11 @@ export const routes: Routes = [
     },
     {
         path: "register",
-        component: RegisterPage,
+        component: Register,
         canActivate: [onlyPublicGuard]
 
     },
     {
-        // Path vacío se abre cuando la página no tiene url más que localhost
         path: "",
         component: LoggedLayout,
         canActivateChild: [onlyUserGuard],

@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
+import Swal from 'sweetalert2';
 import { Auth } from '../../services/auth';
 
 @Component({
@@ -10,4 +11,19 @@ import { Auth } from '../../services/auth';
 })
 export class LoggedLayout {
   authService = inject(Auth)
+
+  abrirModal() {
+    Swal.fire({
+      title: "Quiere cerrar sesion?",
+      showDenyButton: false,
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonColor: "var(--color-error)",
+      confirmButtonText: "Cerrar sesion",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.authService.logout();
+      } 
+    });
+  }
 }

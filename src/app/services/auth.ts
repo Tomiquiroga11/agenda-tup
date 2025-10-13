@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 })
 export class Auth implements OnInit {
   ngOnInit(): void {
-    // Si tengo sesion iniciada reviso que no este vencida
     if (this.token) {
       this.revisionTokenInterval = this.revisionToken()
     }
@@ -43,7 +42,6 @@ export class Auth implements OnInit {
     if(this.revisionTokenInterval) clearInterval(this.revisionTokenInterval);
   }
 
-  /** Revisa cada 10 minutos que el token siga siendo valido */
   revisionToken() {
     return setInterval(() => {
       if (this.token) {

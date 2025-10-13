@@ -5,25 +5,35 @@ import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login-page',
-  imports: [RouterModule,FormsModule],
+  standalone: true,
+  imports: [RouterModule, FormsModule],
   templateUrl: './login-page.html',
   styleUrl: './login-page.scss'
 })
 export class LoginPage {
-  authService = inject(Auth)
-  router = inject(Router)
+  authService = inject(Auth);
+  router = inject(Router);
 
   errorLogin = false;
+  isLoggingIn = false;
 
-  async login(form:NgForm){
-    console.log(form.value)
+  async login(form: NgForm){
     this.errorLogin = false;
-    if(!form.value.email || !form.value.password){
-      this.errorLogin = true;
-      return
+
+    if (form.invalid) {
+      return;
     }
+
+    this.isLoggingIn = true;
+
     const loginResult = await this.authService.login(form.value);
-    if(loginResult) this.router.navigate(["/"]);
-    this.errorLogin = true;
+
+    this.isLoggingIn = false;
+
+    if(loginResult) {
+      this.router.navigate(["/"]);
+    } else {
+      this.errorLogin = true;
+    }
   }
 }

@@ -1,9 +1,11 @@
 <h1>Contactos</h1>
-@for (contacto of contactsService.contacts; track $index) {
-  <a [routerLink]="['/contacts', contacto.id]">
-    <app-contact-list-item [contacto]="contacto" [index]="$index" />
-  </a>
-} @empty {
-<p>No hay contactos, <a routerLink="/contacts/new">agregá uno</a>.</p>
-}
-<a routerLink="/contacts/new">Nuevo contacto +</a>
+
+<div class="contacts-grid">
+  @for (contacto of contactsService.contacts; track contacto.id; let i = $index) {
+    <app-contact-list-item [contacto]="contacto" [index]="i" />
+  } @empty {
+    <p class="empty-message">No hay contactos, <a routerLink="/contacts/new">agregá uno</a>.</p>
+  }
+</div>
+
+<a routerLink="/contacts/new" class="fab">+</a>

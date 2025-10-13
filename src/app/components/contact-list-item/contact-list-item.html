@@ -1,7 +1,13 @@
-<p>Contacto Nº {{index() +1}} {{contacto().firstName}}
-    @if(contacto().isFavorite){
-        ⭐
-    }
-    <a [routerLink]="['/contacts',contacto().id,'edit']">Editar</a>
-    <button (click)="contactsService.deleteContact(contacto().id)">Borrar</button>
-</p>
+<a [routerLink]="['/contacts', contacto().id]" class="contact-card">
+    <div class="avatar">
+      @if (contacto().image) {
+        <img [src]="contacto().image" [alt]="contacto().firstName">
+      } @else {
+        <span>{{ contacto().firstName.charAt(0) }}{{ contacto().lastName.charAt(0) }}</span>
+      }
+    </div>
+    <div class="contact-info">
+      <div class="name">{{ contacto().firstName }} {{ contacto().lastName }}</div>
+      <div class="phone">{{ contacto().number }}</div>
+    </div>
+  </a>

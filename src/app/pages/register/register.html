@@ -1,51 +1,72 @@
-<div id="container" class="card">
-  <h1>Registrarse</h1>
-  <form #registerForm="ngForm" (ngSubmit)="register(registerForm.value)">
-    <div>
-      <label for="firstName">Nombre*</label>
-      <input id="firstName" name="firstName" id="firstName" ngModel #firstName="ngModel" required="true" autocomplete="firstName">
-      @if (firstName.invalid && !firstName.pristine) {
-        <p class="error">Debe colocar un Nombre.</p>
-      }
-    </div>
-    <div>
-      <label for="lastName">Apellido*</label>
-      <input id="lastName" name="lastName" id="lastName" ngModel #lastName="ngModel" required="true" autocomplete="lastName">
-      @if (lastName.invalid && !lastName.pristine) {
-        <p class="error">Debe colocar un Apellido.</p>
-      }
-    </div>
-    <div>
-      <label for="email">Correo electrónico*</label>
-      <input id="email" name="email" type="email" id="email" ngModel #email="ngModel" required="true" autocomplete="email">
-      @if (email.invalid && !email.pristine) {
-        <p class="error">Debe colocar un correo electrónico.</p>
-      }
-    </div>
-    <div>
-      <label for="password">Contraseña*</label>
-      <input id="password" name="password" type="password" ngModel #password="ngModel" minlength="4" autocomplete="new-password" required>
-      @if (password.invalid && !password.pristine) {
-        <p class="error">Debe colocar una contraseña de al menos 4 caracteres.</p>
-      }
-    </div>
-    <div>
-      <label for="password">Repite la contraseña*</label>
-      <input id="password2" name="password2" type="password" ngModel #password2="ngModel" minlength="4" autocomplete="new-password" required>
-      @if (password.invalid && !password.pristine) {
-        <p class="error">Debe colocar una contraseña de al menos 4 caracteres.</p>
-      }
-    </div>
-    <button>Registrarse</button>
-    @if (isLoading) {
-      <p class="error">Cargando...</p>
-    }
-    @if (errorRegister) {
-      <p class="error">Error indeterminado, intente nuevamente.</p>
-    }
-    <p>Ya tenés cuenta? <a routerLink="/login">Inicia sesion</a>
-    </p>
-  </form>
+<div class="register-card">
+  <header class="card-header">
+    <h1>Crear una Cuenta</h1>
+    <p>Registrate para empezar a organizar tus contactos.</p>
+  </header>
 
-  <a routerLink="/">Home</a>
+  <form #registerForm="ngForm" (ngSubmit)="register(registerForm.value)">
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="firstName">Nombre*</label>
+          <input id="firstName" name="firstName" ngModel required autocomplete="given-name">
+          @if (registerForm.controls['firstName']?.dirty && registerForm.controls['firstName']?.invalid) {
+            <span class="error-message">Debes colocar un nombre.</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Apellido*</label>
+          <input id="lastName" name="lastName" ngModel required autocomplete="family-name">
+          @if (registerForm.controls['lastName']?.dirty && registerForm.controls['lastName']?.invalid) {
+            <span class="error-message">Debes colocar un apellido.</span>
+          }
+        </div>
+
+        <div class="form-group full-width">
+          <label for="email">Correo electrónico*</label>
+          <input id="email" name="email" type="email" ngModel required autocomplete="email">
+           @if (registerForm.controls['email']?.dirty && registerForm.controls['email']?.invalid) {
+            <span class="error-message">Debes colocar un email válido.</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="password">Contraseña*</label>
+          <input id="password" name="password" type="password" ngModel required minlength="4" autocomplete="new-password">
+          @if (registerForm.controls['password']?.dirty && registerForm.controls['password']?.invalid) {
+            <span class="error-message">Mínimo 4 caracteres.</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="password2">Repite la contraseña*</label>
+          <input id="password2" name="password2" type="password" ngModel required minlength="4" autocomplete="new-password">
+           @if (registerForm.controls['password2']?.dirty && registerForm.controls['password2']?.invalid) {
+            <span class="error-message">Repite la contraseña.</span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <footer class="card-actions">
+      @if (errorRegister) {
+        <p class="error-message backend-error">Error al registrar. Inténtalo de nuevo.</p>
+      }
+    
+      <button type="submit" [disabled]="registerForm.invalid || isRegistering" class="btn btn-primary">
+        @if (isRegistering) {
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Registrando...</span>
+          </div>
+        } @else {
+          <span>Registrarse</span>
+        }
+      </button>
+    
+      <p class="login-link">
+        ¿Ya tenés cuenta? <a routerLink="/login">Inicia sesión</a>
+      </p>
+    </footer>
+  </form>
 </div>
