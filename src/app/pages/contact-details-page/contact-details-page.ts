@@ -42,7 +42,7 @@ export class ContactDetailsPage implements OnInit {
         title: "Borrar contacto",
         text: `¿Estás seguro de que deseas eliminar a ${this.contacto.firstName}? El borrado es permanente.`,
         showCancelButton: true,
-        confirmButtonColor: "#e74c3c", // Rojo
+        confirmButtonColor: "#e74c3c", 
         cancelButtonText: "Cancelar",
         confirmButtonText: "Sí, borrar"
       }).then(async (result) => {
